@@ -1,3 +1,35 @@
+/* Centralized endpoints grouped by API version */
+module Endpoints = {
+  module V1 = {
+    /* Some existing v1 endpoints may be here already. Add any you prefer to centralize. */
+    let fetchPaymentMethodList = "account/payment_methods"
+    let fetchSessions = "payments/session_tokens"
+    let fetchThreeDsAuth = (paymentIntentID: string) => `payments/${paymentIntentID}/3ds/authentication`
+    let fetchCustomerPaymentMethodList = "customers/payment_methods"
+    let fetchSavedPaymentMethodList = "customers/payment_methods"
+    let deletePaymentMethod = (paymentMethodId: string) => `payment_methods/${paymentMethodId}`
+    let calculateTax = (paymentIntentID: string) => `payments/${paymentIntentID}/calculate_tax`
+    let createPaymentMethod = "payment_methods"
+    let retrievePaymentIntent = (paymentIntentID: string) => `payments/${paymentIntentID}`
+    let callAuthLink = "payment_methods/auth/link"
+    let callAuthExchange = "payment_methods/auth/exchange"
+    let retrieveStatus = (pollId: string) => `poll/status/${pollId}`
+    let confirmPayout = (payoutId: string) => `payouts/${payoutId}/confirm`
+  }
+
+  module V2 = {
+    /* v2 payment-method-sessions endpoints used by PaymentHelpersV2.res */
+    let paymentMethodSessionsBase = (pmSessionId: string) => `v2/payment-method-sessions/${pmSessionId}`
+    let paymentMethodSessionsList = (pmSessionId: string) => `v2/payment-method-sessions/${pmSessionId}/list-payment-methods`
+    let paymentMethodSessionsConfirm = (pmSessionId: string) => `v2/payment-method-sessions/${pmSessionId}/confirm`
+    let paymentMethodSessionsUpdate = (pmSessionId: string) => `v2/payment-method-sessions/${pmSessionId}/update-saved-payment-method`
+
+    /* v2 payments endpoints */
+    let paymentsCreateExternalSdkTokens = (paymentIntentID: string) =>
+      `v2/payments/${paymentIntentID}/create-external-sdk-tokens`
+  }
+}
+
 type apiCallV1 =
   | FetchPaymentMethodList
   | FetchCustomerPaymentMethodList
